@@ -1,0 +1,235 @@
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.newfont{
+  color: #965641 ;
+}
+
+.button-style:hover{
+opacity: 0.9;
+}
+
+.signin-button:focus,
+.signin-button:active {
+  outline: none !important; /* Remove default focus outline */
+  border: 2px solid rgb(125, 86, 86) !important; /* Apply a custom border */
+  box-shadow: 0 0 15px rgba(158, 107, 107, 0.5) !important; /* Add custom box-shadow */
+}
+.google-button{
+  border-color: #965641;
+  border-style: solid;
+  border-width: 1.9px;
+}
+.google-button:hover{
+  border-color: #965641;
+}
+.google-button:focus,
+.google-button:active{
+  outline: none !important; /* Remove default focus outline */
+  box-shadow: 0 0 15px rgba(158, 107, 50, 0.5) !important; /* Add custom box-shadow */
+  border-color: #965641 !important; ;
+  background-color: white !important; ;
+}
+.inputtags:focus,
+.inputtags:active {
+  box-shadow: 0 0 6px rgba(203, 195, 195, 0.5) !important;
+  border-color: #bcb3b3 !important; 
+}
+.searchInput{
+  border: 1px solid rgb(186, 186, 186);
+  border-radius: 8px;
+  height: 35px;
+  background-color: #fbfafa;
+}
+.searchInput::placeholder {
+  color: #aaa; /* Change this to your desired color */
+  opacity: 1;  /* Ensures that the color is fully opaque */
+  padding-left: 5px;
+}
+
+.searchInput:focus,
+.searchInput:active {
+  border: 1px solid rgb(186, 186, 186) !important; /* Ensures grey border on focus and active */
+  outline: none !important; /* Removes any default outline that may appear */
+}
+.navbutton:hover{
+  color: #965641;
+    border-color: #807e7d !important; 
+
+}
+
+
+.post-button:focus,
+.post-button:active {
+  outline: none !important; /* Remove default focus outline */
+  border: 2px solid rgb(125, 86, 86) !important; /* Apply a custom border */
+  box-shadow: 0 0 15px rgba(158, 107, 107, 0.5) !important; /* Add custom box-shadow */
+}
+
+.upload-btn {
+  border: 1px solid rgb(224, 219, 219);
+}
+.upload-btn:hover{
+  border: 1px solid rgb(224, 219, 219);
+
+}
+.newfont:hover{
+  color: #965641 ;
+}
+.category-card{
+  width: 250px;
+  cursor:pointer;  
+  height: 250px;
+  object-fit: cover;
+  color: #965641;
+}
+.commentFont{
+  font-size: 11px;
+  margin-bottom: 1px;
+}
+.comment{
+  font-size: 14px;
+  color: #807e7d;
+}
+.commentbtn{
+  font-size: 12px;
+  color: #aea7a7;
+}
+
+.custom-btn:hover{
+  color: rgb(54, 54, 236);
+}
+.d-btn{
+  border: none;
+  background: none;
+}
+.d-btn:hover{
+  color: rgb(238, 55, 55);
+}
+.e-btn:hover{
+  color: rgb(54, 54, 236);
+}
+.like-btn{
+  border: none;
+  background: none;
+  padding: 0;
+  color: #aea7a7;
+}
+.hrclr{
+  color: #aea7a7;
+}
+.postBtn:focus,
+.postBtn:active {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.postBtn{
+  border: none;
+  background: none;
+  padding: 0;
+}
+.comment-div{
+  margin-left: 70px;
+  margin-top: -20px;
+}
+.comment-btn-section{
+  margin-top: -9px;
+}
+
+
+/* Dashboard Styles */
+.sidebar {
+  background-color: #f8f9fa; /* Light background for sidebar */
+  padding: 20px;
+  height: 100vh; /* Full height */
+}
+
+.dash-profile {
+  display: flex;
+  /* justify-content: center; */
+  height: 100vh; /* Full height */
+  align-items: center;
+}
+.textfield{
+  width: 450px;
+}
+/* Responsiveness */
+@media (max-width: 768px) {
+  .dashboard-row {
+    flex-direction: column; /* Stack columns vertically */
+  }
+
+  .sidebar {
+    height: auto; /* Adjust sidebar height on small screens */
+  }
+}
+.profile-image {
+  width: 100px;  /* Adjust the width */
+  height: 100px; /* Adjust the height to match the width for a perfect circle */
+}
+.navbtn{
+  color: #965641;
+  border: 1px solid #f2f3f6;
+  background-color: #f2f3f6;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.navbtn:hover,
+.navbtn:active,
+.navbtn:focus{
+  color: #965641;
+  background-color: #e2dcda;
+
+}
+
+.deleteBtn:focus,
+.deleteBtn:active {
+  outline: none !important; /* Remove default focus outline */
+  border: rgb(190, 7, 7) !important; /* Apply a custom border */
+  box-shadow: none !important; /* Add custom box-shadow */
+}
+.viewAll-btn{
+  background-color: white;
+  border: 1px solid #965641;
+  border-radius: 3px;
+  color: #965641;
+  height: 30px;
+  font-weight: 500;
+}
+.viewAll-btn:hover{
+  background-color: #965641;
+  color: white;
+}
+.viewAll-link{
+  color: #965641;
+}
+.viewAll-link:hover{
+  background-color: #965641;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .searchInput {
+    margin-right: 120px;
+  }
+}
+/* In your CSS file or within a <style> block */
+.sidebar-col {
+  position: fixed;
+
+  left: 0;
+  height: 100vh;
+  width: 16.66%; /* Adjust width according to your layout */
+  background-color: #f8f9fa; /* Optional: set background color */
+  overflow-y: auto; /* Enable scrolling within sidebar if content overflows */
+  z-index: 1000; /* Ensure sidebar stays on top */
+}
+
+.profile-col {
+  margin-left: 16.66%; /* Offset main content by sidebar width */
+  padding: 20px; /* Optional padding */
+}
