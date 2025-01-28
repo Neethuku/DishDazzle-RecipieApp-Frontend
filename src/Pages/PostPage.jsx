@@ -19,6 +19,8 @@ function PostPage() {
 
   const getAllRecipe = async () => {
     const result = await allRecipeAPI();
+    console.log(result);
+    
     if (result.status === 200) {
       setAllRecipe(result.data); 
     } else {

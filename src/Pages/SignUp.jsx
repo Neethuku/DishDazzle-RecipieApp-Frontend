@@ -105,7 +105,7 @@ function SignUp() {
                 type="password" 
                 placeholder="Password"
                 value={userData.password}
-                onChange={handlePasswordChange}
+                onChange={handlePasswordChange} 
                 />
                 {!passwordValid &&  <p style={{ color: 'red', fontSize: '13px' }}>Password must be in 5 character</p>}
               </Form.Group>

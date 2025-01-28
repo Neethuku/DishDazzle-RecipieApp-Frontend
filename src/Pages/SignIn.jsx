@@ -57,8 +57,7 @@ function SignIn() {
         const result = await signInAPI({email,password})
       console.log(result);
       if(result.status === 200){
-        console.log(result);
-        
+        console.log(result);     
         sessionStorage.setItem("username",result.data.userDetails.username)
         sessionStorage.setItem("token",result.data.token)
         sessionStorage.setItem("userDetails",JSON.stringify(result.data.userDetails))
@@ -134,8 +133,7 @@ function SignIn() {
             onClick={handleSignIn}
             >Sign In
             </Button>}
-           
-           
+
            <GAuth/>
             <span>Have an account? <Link className='text-decoration-none' to={'/sign-up'}>Sign Up</Link></span>
           </Form>

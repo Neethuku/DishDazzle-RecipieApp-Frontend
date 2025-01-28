@@ -6,6 +6,7 @@ import {app} from '../firebase';
 import { googleLoginAPI } from '../../Services/allAPI';
 import { useNavigate } from 'react-router-dom';
 import { currentUserContext } from '../Context API/ContexShare';
+import { tokenAuthenticationContext } from '../Context API/TokenAuth'
 
 
 function GAuth() {
@@ -13,6 +14,7 @@ function GAuth() {
         username: "", email: "", profile: ""
     });
     const {currentUser,setCurrentUser} = useContext(currentUserContext)
+    const {isAuthorized,setIsAuthorized} = useContext(tokenAuthenticationContext)
     const navigate = useNavigate();
     const handlegoogleLogin = async () => {
         const auth = getAuth(app)
@@ -36,6 +38,7 @@ function GAuth() {
                 sessionStorage.setItem("token",response.data.token)
                 sessionStorage.setItem("userDetails",JSON.stringify(response.data.userDetails))
                 setCurrentUser(response.data.userDetails)
+                setIsAuthorized(true)
                 if(response.data.userDetails.isAdmin){
                     navigate('/dashboard?tab=profile');
                 }else{
