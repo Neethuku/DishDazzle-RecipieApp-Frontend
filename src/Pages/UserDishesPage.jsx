@@ -14,27 +14,36 @@ import { Link } from 'react-router-dom';
 import { AiOutlinePlus } from "react-icons/ai";
 import { deleteUserRecipeAPI, getuserRecipeAPI } from '../../Services/allAPI';
 import { SERVER_URL } from '../../Services/serverUrl';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
 function UserDishesPage() {
   const [allProjects, setAllProjects] = useState([])
   const [displayLimit,setDisplayLimit] = useState(4)
-
+  const [isLoading,setIsLoading] = useState(false)
+  
   const getuserRecipe = async () => {
+    setIsLoading(true)
     const token = sessionStorage.getItem("token")
     console.log(token);
-    if (token) {
-      const reqHeader = {
-        "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
+    try {
+      if (token) {
+        const reqHeader = {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        }
+        const result = await getuserRecipeAPI(reqHeader)
+        if (result.status === 200) {
+          setAllProjects(result.data)
+        } else {
+          console.log(result);
+        }
       }
-      const result = await getuserRecipeAPI(reqHeader)
-      if (result.status === 200) {
-        setAllProjects(result.data)
-      } else {
-        console.log(result);
-      }
+    } catch (error) {
+      console.log(error);
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -75,59 +84,67 @@ function UserDishesPage() {
         </Link>
 
       </div>
+      {
+        isLoading?(
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+          <Spinner animation="border" variant="secondary" />
+          </div>
+        ):(
+          <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
 
-      <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
-
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-
-              <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
-              <TableCell></TableCell>
-              <TableCell style={{ fontWeight: 'bold' }} >Dish Name</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>Date</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>Edit</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          {
-            allProjects.length > 0 ? allProjects.slice(0,displayLimit).map((recipe, index) => (
-              <TableBody>
-                <TableRow>
-                  <TableCell >{index + 1}</TableCell>
-                  <TableCell><Link to={`/view/${recipe._id}`}><img style={{ width: '100px', height: '100px', objectFit: 'cover' }} src={`${SERVER_URL}/uploads/${recipe?.postImage}`} alt="" /></Link></TableCell>
-                  <TableCell >{recipe.title}</TableCell>
-                  <TableCell >  {new Date(recipe.updatedAt).toLocaleDateString('en-GB', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })}</TableCell>
-                  <TableCell >
-                    <Link to={`/update-post/${recipe._id}`}>
-                      <Button
-                        style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+  
+                <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
+                <TableCell></TableCell>
+                <TableCell style={{ fontWeight: 'bold' }} >Dish Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Date</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Edit</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
+              </TableRow>
+            </TableHead>
+            {
+              allProjects.length > 0 ? allProjects.slice(0,displayLimit).map((recipe, index) => (
+                <TableBody>
+                  <TableRow>
+                    <TableCell >{index + 1}</TableCell>
+                    <TableCell><Link to={`/view/${recipe._id}`}><img style={{ width: '100px', height: '100px', objectFit: 'cover' }} src={`${SERVER_URL}/uploads/${recipe?.postImage}`} alt="" /></Link></TableCell>
+                    <TableCell >{recipe.title}</TableCell>
+                    <TableCell >  {new Date(recipe.updatedAt).toLocaleDateString('en-GB', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })}</TableCell>
+                    <TableCell >
+                      <Link to={`/update-post/${recipe._id}`}>
+                        <Button
+                          style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+                          onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
+                          onBlur={(e) => e.target.style.boxShadow = 'none'}
+                        ><BiSolidEditAlt style={{ color: '#007bff' }} size={26} />
+                        </Button>
+                      </Link>
+                    </TableCell>
+                    <TableCell >
+                      <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
                         onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
                         onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      ><BiSolidEditAlt style={{ color: '#007bff' }} size={26} />
+                        onClick={() => handledeleteRecipe(recipe?._id)}
+                      ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
                       </Button>
-                    </Link>
-                  </TableCell>
-                  <TableCell >
-                    <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
-                      onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
-                      onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      onClick={() => handledeleteRecipe(recipe?._id)}
-                    ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            )) :
-              <p className='m-4'>No recipies are uploaded yet!!</p>
-          }
-
-        </Table>
-      </TableContainer>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              )) :
+                <p className='m-4'>No recipies are uploaded yet!!</p>
+            }
+  
+          </Table>
+        </TableContainer>
+        )
+      }
+    
       {allProjects.length>displayLimit &&(
         <div className="d-flex justify-content-center mt-3">
           <button
