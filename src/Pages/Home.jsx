@@ -11,6 +11,7 @@ import chefImage from '../assets/chef1-removebg-preview_enhanced.png'
 import {  homeRecipeAPI, recentRecipeAPI } from '../../Services/allAPI';
 import { SERVER_URL } from '../../Services/serverUrl';
 import { currentUserContext } from '../Context API/ContexShare';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 function Home() {
@@ -22,6 +23,7 @@ function Home() {
   console.log(allRecipe);
   const [hoveredCard, setHoveredCard] = useState(null); 
   const {currentUser,setCurrentUser} = useContext(currentUserContext)
+  const [isLoading,setIsLoading] = useState(false)
 
 
   useEffect ( () => {
@@ -30,13 +32,20 @@ function Home() {
   },[])
 
   const getHomeRecipe = async() => {
-    const result = await homeRecipeAPI()
+    setIsLoading(true)
+    try {
+      const result = await homeRecipeAPI()   
     if(result.status === 200){
       setAllRecipe(result.data)
     }else{
-      console.log(result);
-      
+      console.log(result);      
     }
+    } catch (error) {
+      console.log(error);  
+    } finally{
+      setIsLoading(false)
+    }
+
   }
 
   const getRecentRecipe = async() => {
@@ -89,42 +98,51 @@ function Home() {
       <div style={{marginTop:'180px'}}>
         <h4 className='newfont' style={{ textAlign: 'center', fontWeight: 'bold'}}>Simple Recipies Made for real, Actual, Everyday Life</h4>
       </div>
-      <div className='container mt-5'>
-        <div className='row justify-content-center'>
-        {allRecipe?.length>0?allRecipe.map((recipe)=>(
-          <div className="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex justify-content-center">
-        <Link to={`/view/${recipe._id}`}>
-        <Card
-              style={{
-                width: '18rem',
-                transform: hoveredCard === recipe._id ? 'scale(1.05)' : 'scale(1)', 
-                transition: 'transform 0.5s ease',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={() => setHoveredCard(recipe._id)} 
-              onMouseLeave={() => setHoveredCard(null)} 
-            >
-
-           <Card.Img variant="top" src={`${SERVER_URL}/uploads/${recipe?.postImage}`}
-            style={{
-              width: '100%', 
-              height: '300px', 
-              objectFit: 'cover' 
-            }}
-           />
-           <Card.Body>
-             <Button  style={{ color: '#965641', borderColor: '#965641' }} variant="outlined" size="medium">View More</Button>
-           </Card.Body>
-         </Card>
-         </Link>
+      {
+        isLoading?(
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+          <Spinner animation="border" variant="secondary" />
           </div>
-           )):
-           <p></p>
-           }
-       
+        ):(
+          <div className='container mt-5'>
+          <div className='row justify-content-center'>
+          {allRecipe?.length>0?allRecipe.map((recipe)=>(
+            <div className="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex justify-content-center">
+          <Link to={`/view/${recipe._id}`}>
+          <Card
+                style={{
+                  width: '18rem',
+                  transform: hoveredCard === recipe._id ? 'scale(1.05)' : 'scale(1)', 
+                  transition: 'transform 0.5s ease',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={() => setHoveredCard(recipe._id)} 
+                onMouseLeave={() => setHoveredCard(null)} 
+              >
+  
+             <Card.Img variant="top" src={`${SERVER_URL}/uploads/${recipe?.postImage}`}
+              style={{
+                width: '100%', 
+                height: '300px', 
+                objectFit: 'cover' 
+              }}
+             />
+             <Card.Body>
+               <Button  style={{ color: '#965641', borderColor: '#965641' }} variant="outlined" size="medium">View More</Button>
+             </Card.Body>
+           </Card>
+           </Link>
+            </div>
+             )):
+             <p></p>
+             }
+         
+          </div>
         </div>
-      </div>
+        )
+      }
+    
       <div style={{ width: '100%' }} className='mt-5'>
         <div
           style={{
@@ -152,37 +170,46 @@ function Home() {
         <h4 style={{ textAlign: 'center', fontWeight: 'bold',color:'#965641' }}>Recent Post</h4>
       </div>
       <div className='container mt-5'>
-        <div className='row justify-content-center'>
-         {
-          recentRecipe?.length>0?recentRecipe.map((recipe)=>(
-            <div className="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex justify-content-center">
-           <Link to={`/view/${recipe._id}`}>
-            <Card style={{
-                width: '18rem',
-                transform: hoveredCard === recipe._id ? 'scale(1.05)' : 'scale(1)', 
-                transition: 'transform 0.5s ease',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={() => setHoveredCard(recipe._id)} 
-              onMouseLeave={() => setHoveredCard(null)}>
-              <Card.Img
-               variant="top" 
-               style={{
-                width: '100%', 
-                height: '300px', 
-                objectFit: 'cover' 
-              }}
-               src={`${SERVER_URL}/uploads/${recipe?.postImage}`} />
-              <Card.Body>
-              <Button  style={{ color: '#965641', borderColor: '#965641' }} variant="outlined" size="medium">View More</Button>
-              </Card.Body>
-            </Card>
-            </Link>
-          </div>
-          )):null
-         }
-        </div>
+        {
+          isLoading?(
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+            <Spinner animation="border" variant="secondary" />
+            </div>
+          ):(
+            <div className='row justify-content-center'>
+            {
+             recentRecipe?.length>0?recentRecipe.map((recipe)=>(
+               <div className="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex justify-content-center">
+              <Link to={`/view/${recipe._id}`}>
+               <Card style={{
+                   width: '18rem',
+                   transform: hoveredCard === recipe._id ? 'scale(1.05)' : 'scale(1)', 
+                   transition: 'transform 0.5s ease',
+                   boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                   cursor: 'pointer'
+                 }}
+                 onMouseEnter={() => setHoveredCard(recipe._id)} 
+                 onMouseLeave={() => setHoveredCard(null)}>
+                 <Card.Img
+                  variant="top" 
+                  style={{
+                   width: '100%', 
+                   height: '300px', 
+                   objectFit: 'cover' 
+                 }}
+                  src={`${SERVER_URL}/uploads/${recipe?.postImage}`} />
+                 <Card.Body>
+                 <Button  style={{ color: '#965641', borderColor: '#965641' }} variant="outlined" size="medium">View More</Button>
+                 </Card.Body>
+               </Card>
+               </Link>
+             </div>
+             )):null
+            }
+           </div>
+          )
+        }
+       
       </div>
       <div className="d-flex justify-content-center">
   <Link to="/postpage">

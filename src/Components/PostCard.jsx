@@ -21,6 +21,7 @@ function PostCard({recipe}) {
     setCommentStatus(false)
   }
 
+  // console.log('images',`${SERVER_URL}/uploads/${recipe?.postImage}`);
   
 
 
