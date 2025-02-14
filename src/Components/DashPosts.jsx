@@ -13,6 +13,7 @@ import { SERVER_URL } from '../../Services/serverUrl';
 import { currentUserContext } from '../Context API/ContexShare';
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
@@ -22,6 +23,8 @@ function DashPosts() {
   const [totalPosts,setTotalPosts] = useState('')
   const admin = currentUser.isAdmin
   const [displayLimit,setDisplayLimit] = useState(10)
+  const [isLoading,setIsLoading] = useState(false)
+
 
   useEffect(() => {
     fetchPosts()
@@ -37,6 +40,7 @@ function DashPosts() {
       const queryParams = new URLSearchParams({
         admin: true,
       })
+      setIsLoading(true)
       try {
         const result = await getAllPostsAPI(queryParams, reqHeader)
         setGetAllPosts(result.data.allPosts)
@@ -44,6 +48,8 @@ function DashPosts() {
       } catch (error) {
         console.log(error);
 
+      }finally{
+        setIsLoading(false)
       }
     }
 
@@ -79,62 +85,71 @@ console.log(error);
       </Link>
 
     </div>
+    {
+      isLoading?(
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+        <Spinner animation="border" variant="secondary" />
+        </div>
+      ):(
+        <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
 
-    <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
-
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-
-            <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
-            <TableCell></TableCell>
-            <TableCell style={{ fontWeight: 'bold' }} >Title</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }} >Category</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>UserId</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>PostId</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
-          </TableRow>
-        </TableHead>
-       
-            <TableBody>
-              {getAllPosts && getAllPosts.length > 0 ? (
-                getAllPosts.slice(0,displayLimit).map((post,index) => (
-                  <TableRow key={post._id}>
-                  <TableCell >{index+1}</TableCell>
-                  <TableCell>
-                  <Link to={`/view/${post._id}`}>
-                    <img style={{ width: '100px', height: '100px', objectFit: 'cover' }} src={`${SERVER_URL}/uploads/${post?.postImage}`} alt="" />
-                    </Link>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+  
+              <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
+              <TableCell></TableCell>
+              <TableCell style={{ fontWeight: 'bold' }} >Title</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }} >Category</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>UserId</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>PostId</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+         
+              <TableBody>
+                {getAllPosts && getAllPosts.length > 0 ? (
+                  getAllPosts.slice(0,displayLimit).map((post,index) => (
+                    <TableRow key={post._id}>
+                    <TableCell >{index+1}</TableCell>
+                    <TableCell>
+                    <Link to={`/view/${post._id}`}>
+                      <img style={{ width: '100px', height: '100px', objectFit: 'cover' }} src={`${SERVER_URL}/uploads/${post?.postImage}`} alt="" />
+                      </Link>
+                      </TableCell>
+                    <TableCell >{post.title}</TableCell>
+                    <TableCell > {post.category}</TableCell>
+                    <TableCell > {post.userId}</TableCell>
+                    <TableCell > {post._id}</TableCell>
+                    <TableCell >
+                      <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+                        onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
+                        onBlur={(e) => e.target.style.boxShadow = 'none'}
+                        onClick={()=>handledeleteRecipe(post?._id)}
+                      ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
+                      </Button>
                     </TableCell>
-                  <TableCell >{post.title}</TableCell>
-                  <TableCell > {post.category}</TableCell>
-                  <TableCell > {post.userId}</TableCell>
-                  <TableCell > {post._id}</TableCell>
-                  <TableCell >
-                    <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
-                      onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
-                      onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      onClick={()=>handledeleteRecipe(post?._id)}
-                    ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
-                    </Button>
+                  </TableRow>
+                  ))
+                ):(
+                  <TableRow>
+                  <TableCell colSpan={7}>
+                    <div className="d-flex align-items-center justify-content-center" style={{ height: '50px' }}>
+                      <p>No posts yet</p>
+                    </div>
                   </TableCell>
                 </TableRow>
-                ))
-              ):(
-                <TableRow>
-                <TableCell colSpan={7}>
-                  <div className="d-flex align-items-center justify-content-center" style={{ height: '50px' }}>
-                    <p>No posts yet</p>
-                  </div>
-                </TableCell>
-              </TableRow>
-              )}
+                )}
+               
+            
+              </TableBody>
              
-          
-            </TableBody>
-           
-      </Table>
-    </TableContainer>
+        </Table>
+      </TableContainer>
+      )
+    }
+
+
     {getAllPosts.length>displayLimit &&(
       <div className="d-flex justify-content-center mt-3">
           <button

@@ -14,6 +14,7 @@ import { SERVER_URL } from '../../Services/serverUrl';
 import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import profileImage from '../assets/profileimage.jpg'
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
@@ -24,6 +25,7 @@ function DashUsers() {
   const [totalUsers, setTotalUsers] = useState('')
   const admin = currentUser.isAdmin
   const [displayLimit, setDisplayLimit] = useState(10)
+  const [isLoading,setIsLoading] = useState(false)
 
   console.log(getAllUsers);
 
@@ -42,6 +44,7 @@ function DashUsers() {
       const queryParams = new URLSearchParams({
         admin: true,
       })
+      setIsLoading(true)
       try {
         const result = await getAllUsersAPI(queryParams, reqHeader)
         setGetAllUsers(result.data.allUsers)
@@ -49,6 +52,8 @@ function DashUsers() {
       } catch (error) {
         console.log(error);
 
+      }finally{
+        setIsLoading(false)
       }
     }
 
@@ -86,88 +91,96 @@ function DashUsers() {
 
 
       </div>
+      {
+        isLoading?(
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+          <Spinner animation="border" variant="secondary" />
+          </div>
+        ):(
+          <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
 
-      <TableContainer className='mt-5' component={Paper} sx={{ width: '80%', margin: '0 auto' }}>
-
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-
-              <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
-              <TableCell></TableCell>
-              <TableCell style={{ fontWeight: 'bold' }} >Dish Name</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>UserId</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>Admin</TableCell>
-              <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {getAllUsers && getAllUsers.length > 0 ? (
-              getAllUsers.slice(0, displayLimit).map((user, index) => (
-                <TableRow key={user._id}>
-                  <TableCell >{index + 1}</TableCell>
-                  <TableCell>
-                    <img
-                      style={{
-                        width: '70px',
-                        height: '70px',
-                        objectFit: 'cover',
-                        borderRadius: '50%'
-                      }}
-                      src={user?.profile ? `${SERVER_URL}/uploads/${user.profile}` : profileImage}
-                      alt=""
-                    />
-                  </TableCell>
-
-                  <TableCell > {user.username}</TableCell>
-                  <TableCell >{user._id}</TableCell>
-                  <TableCell >
-                    {user.isAdmin ? (
-                      <Button
-                        style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+  
+                <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
+                <TableCell></TableCell>
+                <TableCell style={{ fontWeight: 'bold' }} >Dish Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>UserId</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Admin</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Delete</TableCell>
+              </TableRow>
+            </TableHead>
+  
+            <TableBody>
+              {getAllUsers && getAllUsers.length > 0 ? (
+                getAllUsers.slice(0, displayLimit).map((user, index) => (
+                  <TableRow key={user._id}>
+                    <TableCell >{index + 1}</TableCell>
+                    <TableCell>
+                      <img
+                        style={{
+                          width: '70px',
+                          height: '70px',
+                          objectFit: 'cover',
+                          borderRadius: '50%'
+                        }}
+                        src={user?.profile ? `${SERVER_URL}/uploads/${user.profile}` : profileImage}
+                        alt=""
+                      />
+                    </TableCell>
+  
+                    <TableCell > {user.username}</TableCell>
+                    <TableCell >{user._id}</TableCell>
+                    <TableCell >
+                      {user.isAdmin ? (
+                        <Button
+                          style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+                          onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
+                          onBlur={(e) => e.target.style.boxShadow = 'none'}
+                        ><IoCheckmarkCircle style={{ color: '#12b955' }} size={26} />
+                        </Button>
+                      ) : (
+                        <Button
+                          style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
+                          onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
+                          onBlur={(e) => e.target.style.boxShadow = 'none'}
+                        ><FaXmark style={{ color: '#007bff' }} size={26} />
+                        </Button>
+                      )}
+  
+                    </TableCell>
+                    <TableCell >
+                      <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
                         onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
                         onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      ><IoCheckmarkCircle style={{ color: '#12b955' }} size={26} />
+                        onClick={() => handleDeleteUsersAccount(user?._id)}
+                      ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
                       </Button>
-                    ) : (
-                      <Button
-                        style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
-                        onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
-                        onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      ><FaXmark style={{ color: '#007bff' }} size={26} />
-                      </Button>
-                    )}
-
-                  </TableCell>
-                  <TableCell >
-                    <Button style={{ backgroundColor: 'white', border: 'none', boxShadow: 'none' }}
-                      onFocus={(e) => e.target.style.boxShadow = '0 0 2px  #807e7d'}
-                      onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      onClick={() => handleDeleteUsersAccount(user?._id)}
-                    ><MdOutlineDelete style={{ color: '#f44336' }} size={26} />
-                    </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <div className="d-flex align-items-center justify-content-center" style={{ height: '50px' }}>
+                      <p>No users yet</p>
+                    </div>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6}>
-                  <div className="d-flex align-items-center justify-content-center" style={{ height: '50px' }}>
-                    <p>No users yet</p>
-                  </div>
-                </TableCell>
-              </TableRow>
-
-            )
-
-            }
-
-
-          </TableBody>
-
-        </Table>
-      </TableContainer>
+  
+              )
+  
+              }
+  
+  
+            </TableBody>
+  
+          </Table>
+        </TableContainer>
+        )
+      }
+     
       {getAllUsers.length > displayLimit && (
         <div className="d-flex justify-content-center mt-3">
           <button
