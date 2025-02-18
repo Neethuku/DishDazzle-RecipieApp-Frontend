@@ -18,6 +18,7 @@ function DashComments() {
   const [getAllComments, setGetAllComments] = useState('')
   const [totalComments,setTotalComments] = useState('')
   const admin = currentUser.isAdmin
+  
   const [isLoading,setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function DashComments() {
 
   const fetchComments = async () => {
     const token = sessionStorage.getItem('token')
-    const limit = 5;
+    const limit = 7;
     if (admin && token) {
       const reqHeader = {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ function DashComments() {
       })
       setIsLoading(true)
       try {
-        const result = await getAllCommentsAPI(queryParams, reqHeader)
+        const result = await getAllCommentsAPI(queryParams, reqHeader)        
         setGetAllComments(result.data.allComments)
         setTotalComments(result.data.totalComments)
       } catch (error) {

@@ -22,10 +22,11 @@ function CommentSection() {
     const [editcommentStatus, setEditCommentStatus] = useState(false)
     const [editCommentId, setEditCommentId] = useState(null);
     const [editComment, setEditComment] = useState(null);
+    const [deletCommentStatus,setDeleteCommentStatus] = useState(false)
 
     useEffect(() => {
         getComments()
-    }, [commentAdded])
+    }, [commentAdded,deletCommentStatus])
 
     const getComments = async () => {
         const token = sessionStorage.getItem("token")
@@ -59,7 +60,7 @@ function CommentSection() {
             try {
                 const result = await deleteCommentAPI({ commentId }, reqHeader)
                 if (result.status === 200) {
-                    getComments()
+                   setAllComments((prevComments)=>prevComments.filter((comment)=>comment._id !== commentId))
                     console.log('deleted successfully');
                 }
             } catch (error) {
