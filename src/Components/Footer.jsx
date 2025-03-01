@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <>
-          <div style={{minHeight: '100px',marginTop:'150px'}} className="row w-100 ">
+    <div className='footer'>
+    <div style={{minHeight: '100px',marginTop:'150px'}} className="row footer w-100 ">
             <div className="col-1"></div>
             <div className="col-4">
             <div><i class="fa-solid fa-utensils"></i><br/></div>
             <Link style={{ color: 'black', textDecoration: 'none' ,fontSize:'25px',letterSpacing:'3px'}} to={'/'}>
-              <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>ish <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>elight
+              <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>ish <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>azzle
             </Link>
             </div>
             <div style={{ lineHeight: '1.9'}} className="col-2 d-flex flex-column">
@@ -37,8 +38,8 @@ function Footer() {
           </div>
           <hr />
       <div style={{  minHeight: '100px' }} className='row w-100 mb-5'>
-        <div className="col-3"></div>
-        <div style={{ display: 'flex',flexDirection:'column', alignItems: 'center', justifyContent: 'center' }} className="col-6">
+        <div className="col-3 footer"></div>
+        <div style={{ display: 'flex',flexDirection:'column', alignItems: 'center', justifyContent: 'center' }} className="col-6 footer">
         
           <div style={{display:'flex',flexDirection:'row',justifyContent:'center', gap:'20px'}}>
           <a href='https://www.instagram.com/' target='_blank'><i style={{color:'black'}} class="fa-brands fa-instagram"></i></a>
@@ -48,8 +49,10 @@ function Footer() {
           </div>
           <p>&copy;Copyright All rights reserved</p>
         </div>
-        <div className="col-3"></div>
+        <div className="col-3 footer"></div>
       </div>
+    </div>
+         
     </>
   )
 }

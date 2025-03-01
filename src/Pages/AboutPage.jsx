@@ -31,7 +31,7 @@ function AboutPage() {
       <div className="row justify-content-center align-items-center">
         <div className="col-12 col-md-4 order-md-2 text-center mb-4 mb-md-0">
           <h4 style={{ fontWeight: 'bold', color: '#965641' }} className="mb-3">
-             Dish Delight
+             Dish Dazzle
           </h4>
           <p style={{ textAlign: 'center' }}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius enim, vero non molestias nulla eveniet dolorum. 

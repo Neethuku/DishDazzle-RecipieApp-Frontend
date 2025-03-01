@@ -88,7 +88,7 @@ function AdminDash() {
 
   const fetchComments = async () => {
     const token = sessionStorage.getItem('token')
-    const limit = 5;
+    const limit = 6;
     if (admin && token) {
       const reqHeader = {
         "Content-Type": "application/json",

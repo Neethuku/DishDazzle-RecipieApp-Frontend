@@ -164,6 +164,8 @@ opacity: 0.9;
 
   .sidebar {
     height: auto; /* Adjust sidebar height on small screens */
+    z-index: 1;
+    position: absolute;
   }
 }
 .profile-image {
@@ -232,4 +234,9 @@ opacity: 0.9;
 .profile-col {
   margin-left: 16.66%; /* Offset main content by sidebar width */
   padding: 20px; /* Optional padding */
+}
+.footer {
+  position: relative; /* Ensure the footer is positioned */
+  z-index: 1100; /* Higher z-index than the sidebar */
+  background-color: white; /* Optional: to visually stand out */
 }

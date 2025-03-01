@@ -27,6 +27,13 @@ const navLinks = [
   { title: 'Home', path: '/' },
   { title: 'About', path: '/aboutpage' },
   { title: 'My Dishes', path: '/userdishespage' },
+  // { title: 'Profile', path: '/dashboard?tab=profile'}
+];
+const smallNavLinks = [
+  { title: 'Home', path: '/' },
+  { title: 'About', path: '/aboutpage' },
+  { title: 'My Dishes', path: '/userdishespage' },
+  { title: 'Profile', path: '/dashboard?tab=profile'}
 ];
 const settings = ['Profile', 'Logout'];
 
@@ -151,7 +158,7 @@ function ResponsiveAppBar() {
             }}
           >
             <Link className='newfont' style={{ textDecoration: 'none',fontWeight:'550' }} to={'/'}>
-              <span><i className="fa-solid fa-d fa-bounce fa-md"></i></span>ish <span><i  className="fa-solid fa-d fa-bounce fa-md"></i></span>elight
+              <span><i className="fa-solid fa-d fa-bounce fa-md"></i></span>ish <span><i  className="fa-solid fa-d fa-bounce fa-md"></i></span>azzle
             </Link>
           </Typography>
 
@@ -182,7 +189,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-     {navLinks.map((link) => (
+     {smallNavLinks.map((link) => (
       <MenuItem
         key={link.title}
         component={Link}  
@@ -209,7 +216,7 @@ function ResponsiveAppBar() {
             }}
           >
             <Link style={{ color: '#90503A', textDecoration: 'none' }} to={'/'}>
-              <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>ish <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>elight
+              <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>ish <span><i className="fa-solid fa-d fa-bounce fa-sm"></i></span>azzle
             </Link>
           </Typography>
            <form onSubmit={handleSearch} style={{marginLeft:'190px'}}>
