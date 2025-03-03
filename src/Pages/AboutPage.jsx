@@ -21,7 +21,7 @@ function AboutPage() {
         <div className="col-12 col-md-5 text-center">
           <img 
             src={chefImage}
-            alt="Dish Delight Chef"
+            alt="Dish Dazzle Chef"
             className="img-fluid rounded"
             style={{ maxWidth: '50%', height: 'auto' }}
           />
@@ -43,7 +43,7 @@ function AboutPage() {
         <div className="col-12 col-md-5 text-center">
           <img 
             src={aboutimg}
-            alt="About Dish Delight"
+            alt="About Dish Dazzle"
             className="img-fluid rounded"
             style={{ maxWidth: '50%', height: 'auto' }}
           />
